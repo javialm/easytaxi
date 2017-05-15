@@ -1,0 +1,107 @@
+<div class="row">
+	<div class="form col-md-3 p-0">
+		<span class="head-title">FILTRAR</span>
+		<!--<form action="" method="post" id="ajaxSearch" name="buscar" onsubmit="search(); return false;">-->
+		<form action="" method="post" id="ajaxSearch" name="buscar">
+			<div class="pad15 bg-white">
+
+				<select name="classname">
+					<option value="">Elige clase</option>
+					<option value="business">Business</option>
+					<option value="premium">Premium</option>
+					<option value="luxe">Luxe</option>
+				</select>
+				<br>
+				<input type="text" id="id_rate" placeholder="Id_Tarifa">
+				<input type="text" id="price_km" placeholder="Precio/km">
+				<input class="btn-primary" type="submit" id="enviar" value="Buscar" />
+			</div>
+		</form>
+	</div>
+
+	<div class="col-md-9 table-responsive" id="table">
+	</div>
+</div>
+<script src="../site_media/js/jquery-3.1.1.js"></script>
+
+<script type="text/javascript">
+	/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+												CONTROLERS
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+	//FORM HELPER
+	$(document).ready(function () {
+		rate_data = catchForm();
+		$('#table').html("");
+		askDatabase(rate_data);
+	});
+
+	//APPLY FILTER
+	$("#ajaxSearch").submit(function (e) {
+		e.preventDefault();
+		rate_data = catchForm();
+		$('#table').html("");
+		askDatabase(rate_data);
+	});
+
+	//CATCH DATA FROM THE FORM INPUTS
+	function catchForm() {
+		var rate_data = new Array;
+		rate_data['id_rate'] = document.buscar.id_rate.value;
+		rate_data['classname'] = document.buscar.classname.value;
+		rate_data['price_km'] = document.buscar.price_km.value;
+		return rate_data;
+	}
+
+	/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+									  AJAX
+	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+	function askDatabase(rate_data) { //Para el formulario de filtros
+		var data = "id_rate=" + rate_data['id_rate'] + "&classname=" + rate_data['classname']
+			+ "&price_km=" + rate_data['price_km'];
+
+		__ajax("controller.php?p=list/", data)//enviamos a php
+			.done(function (info) {
+
+				info = JSON.parse(info);
+				console.log(info);
+				renderData(info);
+			});
+	}
+
+
+	function __ajax(url, data) { //Ajax configured
+		var ajax = $.ajax({
+			"method": "POST",
+			"url": url,
+			"data": data
+		})
+		return ajax;
+	}
+
+	/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+									RENDERS
+	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+	function renderData(info) {
+
+		//TABLA DE RESULTADOS--LIMPIAR
+		var table = "<table><tr><th>Id</th><th>Classname</th><th>Price Km</th><th>Edit</th><th>Delete	</th></tr>";
+		$.each(info, function (i, item) {
+			table += "<tr><td>" + info[i].id_rate + "</td><td>" + info[i].classname + "</td><td>" + info[i].price_km
+				+ "</td><td>"
+				+ '<form id="buscar_producto" action="{GET}" method="POST">'
+				+ '<input type="hidden" name="id_user" id="id_user" value="' + info[i].id_rate + '">'
+				+ '<button type="submit" id="enviar" value=""><span class="fa fa-pencil fa-1x"></button>'
+				+ '</form></td><td>'
+				+ '<form id="borra_producto" action="{DELETE}" method="POST">'
+				+ '<input type="hidden" name="id_user" id="id_user" value="' + info[i].id_rate + '">'
+				+ '<button type="submit" id="enviar" value=""><span class="fa fa-remove fa-1x"></button>'
+				+ '</form></td></tr>';
+		});
+		table += "</table>";
+		$('#table').html(table);
+	}
+
+</script>

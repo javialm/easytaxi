@@ -1,0 +1,141 @@
+<div class="container-fluid mt-5">
+<center>
+  <div id="mapid" style="width: 800px; height: 300px;"></div>
+</center>
+<script>
+  var mymap = L.map('mapid').setView([38.245, -0.810], 16);
+
+  /*L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    id: 'mapbox.streets'
+  }).addTo(mymap);*/
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(mymap);
+
+
+  var popup = L.popup();
+
+  var lat = [];
+  var lng = [];
+  var cont = 0;
+
+  function onMapClick(e) {
+    if (cont <= 1) {
+
+
+      popup
+        .setLatLng(e.latlng) // Sets the geographical point where the popup will open.
+        .setContent("Has hecho click en la coordenada:<br> " + e.latlng.lat.toString() + "," + e.latlng.lng.toString()) // Sets the HTML content of the popup.
+        .openOn(mymap); // Adds the popup to the map and closes the previous one. 
+      //console.log(e.latlng.lat);
+      lat[cont] = e.latlng.lat;
+      lng[cont] = e.latlng.lng;
+      cont++;
+      if (cont == 2) {
+        identify(lat, lng);
+      }
+    }else{
+      cont = 0;
+    }
+  }
+
+  mymap.on('click', onMapClick);
+
+</script>
+</div>
+<div></div>
+<!-- Marketing messaging and featurettes
+    ================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+<hr class="featurette-divider">
+<div class="container marketing mt-5">
+
+  <!-- Three columns of text below the carousel -->
+  <div class="row">
+    <div class="col-lg-4">
+      <img class="" src="../site_media/img/rules.svg" alt="Generic placeholder image"
+        width="240" height="240">
+      <h2>Your Rules</h2>
+      <p>Píde tu presupuesto online sin registros y sin compromiso, en menos de tres clicks.</p>
+      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+      <img class="" src="../site_media/img/fast.svg" alt="Generic placeholder image"
+        width="240" height="240">
+      <h2>2 fast 2 furious</h2>
+      <p>Disfruta de un servicio instantaneo. Nuestro equipo y flota está en línea 24/7.</p>
+      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <!-- /.col-lg-4 -->
+    <div class="col-lg-4">
+      <img class="" src="../site_media/img/exotic.svg" alt="Generic placeholder image"
+        width="240" height="240">
+      <h2>Vehículos exóticos</h2>
+      <p>¿Cansado del típico taxi? ¿Quieres ir a la fiesta en un DMC-12? tan sólo pídelo.</p>
+      <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+    </div>
+    <!-- /.col-lg-4 -->
+  </div>
+  <!-- /.row -->
+
+
+  <!-- START THE FEATURETTES -->
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo
+        cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-5">
+      <img class="featurette-image img-fluid mx-auto" src="../site_media/img/citroenc5.jpg" alt="Generic placeholder image">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7 push-md-5">
+      <h2 class="featurette-heading">Oh yeah, it's that good. <span class="text-muted">See for yourself.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo
+        cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-5 pull-md-7">
+      <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+      <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo
+        cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    </div>
+    <div class="col-md-5">
+      <img class="featurette-image img-fluid mx-auto" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+    </div>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <!-- /END THE FEATURETTES -->
+
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p>&copy; 2017 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+  </footer>
+
+</div>
+<!-- /.container -->

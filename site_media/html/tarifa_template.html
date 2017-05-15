@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="../site_media/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../site_media/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>ABM de Tarifas: {subtitulo}</title>
+</head>
+
+<body>
+
+    <!--_________TOPBAR MENU-->
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+        <a class="navbar-brand" href="#"><img width="80px" src="../site_media/img/EzTaxi-inv.png"></a>
+        <!--logo-->
+        <!--<a class="navbar-brand" href="#">Vehículos</a>-->
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="./index.php?page=home">{subtitulo} <span class="sr-only">(current)</span></a>
+                </li>
+                <span class="no-desktop">
+                <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_SET_RATE}" title="Nueva tarifa"><span class="fa fa-plus fa-1x t-white"></span> Agregar tarifa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_GET_RATE}" title="Ver tarifas"><span class="fa fa-search fa-1x t-white"></span>Tarifas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_PRINCIPAL}" title="Volver principal"><span class="fa fa-reply fa-1x t-white"></span> Volver principal</a>
+                    </li>
+                </span>
+            </ul>
+        </div>
+    </nav>-->
+
+    <!--_________SIDEBAR-->
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar bg-hardgrey">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_SET_RATE}" title="Nueva tarifa"><span class="fa fa-plus fa-1x t-white"></span> Agregar tarifa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_GET_RATE}" title="Ver tarifas"><span class="fa fa-search fa-1x t-white"></span>Tarifas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{VIEW_PRINCIPAL}" title="Volver principal"><span class="fa fa-reply fa-1x t-white"></span> Volver principal</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+    <!--_________MENSAJE-->
+    <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+        <div class="container">
+            <div class="row">
+                <div class="offset-md-2 offset-sm-3">
+                    <!--{mensaje}-->
+                    <br>
+                    <br>
+                </div>
+            </div>
+            {formulario}
+        </div>
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../site_media/js/dynamics.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../site_media/js/jquery-3.1.1.js"><\/script>')
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+    <script src="../site_media/js/bootstrap.min.js"></script>
+</body>
+
+</html>

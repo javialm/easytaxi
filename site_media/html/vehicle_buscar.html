@@ -1,0 +1,152 @@
+
+<div class="row">
+	<div class="form col-md-3 p-0">
+		<span class="head-title">FILTRAR</span>
+		<!--<form action="" method="post" id="ajaxSearch" name="buscar" onsubmit="search(); return false;">-->
+		<form action="" method="post" id="ajaxSearch" name="buscar">
+			<div class="pad15 bg-white">
+				 
+				<select name="class">
+					<option value="">Elige clase</option>
+					<option value="business">Business</option>
+					<option value="premium">Premium</option>
+					<option value="luxe">Luxe</option>
+				</select>
+				<br>
+				<div id="marca"><input type="text" id="brand"></div>
+				<input type="text" id="id_vehicle" placeholder="Id">
+				<input type="text" id="model" placeholder="Modelo">
+				<input type="text" id="year" placeholder="Año"> Kilometraje
+				<label for="fader"></label>
+				<input id="km" type="range" min="0" max="600000" value="0" id="fader" step="10000" oninput="outputUpdate(value)">
+				<output for="fader" id="volume">0</output>
+
+				<label for="fader"></label>
+				<input id="km2" type="range" min="0" max="600000" value="600000" id="fader" step="10000" oninput="outputUpdate2(value)">
+				<output for="fader" id="volume2">600.000</output>
+				<input class="btn-primary" type="submit" id="enviar" value="Buscar" />
+			</div>
+		</form>
+	</div>
+	<script>
+		function outputUpdate(vol) {
+			document.querySelector('#volume').value = vol;
+		}
+		function outputUpdate2(vol) {
+			document.querySelector('#volume2').value = vol;
+		}
+	</script>
+
+	<div class="col-md-9 table-responsive" id="table">
+	</div>
+</div>
+
+<script src="../site_media/js/jquery-3.1.1.js"></script>
+
+<script type="text/javascript">
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+												CONTROLERS
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		//FORM HELPER
+		$(document).ready(function () {
+			vehicle_data = catchForm();
+			$('#table').html("");
+			askDatabase(vehicle_data);
+			askDatabase2(vehicle_data);
+		});
+
+		//APPLY FILTER
+		$("#ajaxSearch").submit(function (e) {
+			e.preventDefault();
+			vehicle_data = catchForm();
+			$('#table').html("");
+			askDatabase2(vehicle_data);
+		});
+
+		//CATCH DATA FROM THE FORM INPUTS
+		function catchForm() {
+			var vehicle_data = new Array;
+			vehicle_data['id_vehicle'] = document.buscar.id_vehicle.value;
+			vehicle_data['class'] = document.buscar.class.value;
+			vehicle_data['brand'] = document.buscar.brand.value;
+			vehicle_data['model'] = document.buscar.model.value;
+			vehicle_data['year'] = document.buscar.year.value;
+			vehicle_data['km'] = document.buscar.km.value;
+			vehicle_data['km2'] = document.buscar.km2.value;
+			return vehicle_data;
+		}
+
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+										  AJAX
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		function askDatabase(vehicle_data) { //Para el formulario de filtros
+			var data = "id_vehicle=" + vehicle_data['id_vehicle'] + "&class=" + vehicle_data['class']
+				+ "&brand=" + vehicle_data['brand'] + "&model=" + vehicle_data['model']
+				+ "&year=" + vehicle_data['year'] + "&km=" + vehicle_data['km'] + "&km2=" + vehicle_data['km2'];
+
+			__ajax("controller.php?p=list/", data)//enviamos a php
+				.done(function (info) {
+					info = JSON.parse(info);
+					renderForm(info);
+				});
+		}
+
+		function askDatabase2(vehicle_data) { //Control ajax
+			var data = "id_vehicle=" + vehicle_data['id_vehicle'] + "&class=" + vehicle_data['class']
+				+ "&brand=" + vehicle_data['brand'] + "&model=" + vehicle_data['model']
+				+ "&year=" + vehicle_data['year'] + "&km=" + vehicle_data['km'] + "&km2=" + vehicle_data['km2'];
+
+			__ajax("controller.php?p=list/", data)//enviamos a php
+				.done(function (info) {
+					info = JSON.parse(info);
+					renderData(info);
+				});
+		}
+
+		function __ajax(url, data) { //Ajax configured
+			var ajax = $.ajax({
+				"method": "POST",
+				"url": url,
+				"data": data
+			})
+			return ajax;
+		}
+
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+										RENDERS
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		function renderData(info) {
+
+			//TABLA DE RESULTADOS--LIMPIAR
+			var table = "<table><tr><th>Id</th><th>Class</th><th>Modelo</th><th>Marca</th><th>Km</th><th>Año</th><th>Edit</th><th>Delete	</th></tr>";
+			$.each(info, function (i, item) {
+				table += "<tr><td>" + info[i].id_vehicle + "</td><td>" + info[i].class + "</td><td>" + info[i].model
+					+ "</td><td>" + info[i].brand + "</td><td>" + info[i].km + "</td><td>"
+					+ info[i].year + "</td><td>"
+					+ '<form id="buscar_producto" action="{GET}" method="POST">'
+					+ '<input type="hidden" name="id_vehicle" id="id_vehicle" value="' + info[i].id_vehicle + '">'
+					+ '<button type="submit" id="enviar" value=""><span class="fa fa-pencil fa-1x"></button>'
+					+ '</form></td><td>'
+					+ '<form id="borra_producto" action="{DELETE}" method="POST">'
+					+ '<input type="hidden" name="id_vehicle" id="id_vehicle" value="' + info[i].id_vehicle + '">'
+					+ '<button type="submit" id="enviar" value=""><span class="fa fa-remove fa-1x"></button>'
+					+ '</form></td></tr>';
+			});
+			table += "</table>";
+			$('#table').html(table);
+		}
+
+		function renderForm(info) {
+			//FORMULARIO DE BUSQUEDA
+			var aux = "<select name='brand'><option value=''>Elige marca</option>";
+			$.each(info, function (i, item) {
+				aux += "<option value=" + info[i].brand + ">" + info[i].brand + "</option>";
+			});
+			aux += "</select>";
+			$('#marca').html(aux);
+		}
+
+</script>

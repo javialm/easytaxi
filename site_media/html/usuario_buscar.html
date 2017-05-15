@@ -1,0 +1,107 @@
+
+<div class="row">
+	<div class="form col-md-3 p-0">
+		<span class="head-title">FILTRAR</span>
+		<!--<form action="" method="post" id="ajaxSearch" name="buscar" onsubmit="search(); return false;">-->
+		<form action="" method="post" id="ajaxSearch" name="buscar">
+			<div class="pad15 bg-white">
+				<input type="text" id="id_user" placeholder="Id">
+				<input type="text" id="username" placeholder="Username">
+				<input type="text" id="email" placeholder="email">
+				<input type="text" id="pass" placeholder="pass">
+				<input type="text" id="level" placeholder="level">
+				<input class="btn-primary" type="submit" id="enviar" value="Buscar" />
+			</div>
+		</form>
+	</div>
+
+	<div class="col-md-9 table-responsive" id="table">
+	</div>
+</div>
+
+<script src="../site_media/js/jquery-3.1.1.js"></script>
+
+<script type="text/javascript">
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+												CONTROLERS
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		//FORM HELPER
+		$(document).ready(function () {
+			user_data = catchForm();
+			$('#table').html("");
+			askDatabase(user_data);
+		});
+
+		//APPLY FILTER
+		$("#ajaxSearch").submit(function (e) {
+			e.preventDefault();
+			user_data = catchForm();
+			$('#table').html("");
+			askDatabase(user_data);
+		});
+
+		//CATCH DATA FROM THE FORM INPUTS
+		function catchForm() {
+			var user_data = new Array;
+			user_data['id_user'] = document.buscar.id_user.value;
+			user_data['username'] = document.buscar.username.value;
+			user_data['email'] = document.buscar.email.value;
+			return user_data;
+		}
+
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+										  AJAX
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		function askDatabase(user_data) { //Para el formulario de filtros
+			var data = "id_user=" + user_data['id_user'] + "&username=" + user_data['username']
+				+ "&email=" + user_data['email'] + "&pass=" + user_data['pass']
+				+ "&level=" + user_data['level'];
+
+			__ajax("controller.php?p=list/", data)//enviamos a php
+				.done(function (info) {
+					
+					info = JSON.parse(info);
+					console.log(info);
+					renderData(info);
+				});
+		}
+
+
+		function __ajax(url, data) { //Ajax configured
+			var ajax = $.ajax({
+				"method": "POST",
+				"url": url,
+				"data": data
+			})
+			return ajax;
+		}
+
+		/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+										RENDERS
+		:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+
+		function renderData(info) {
+
+			//TABLA DE RESULTADOS--LIMPIAR
+			var table = "<table><tr><th>Id</th><th>Nick</th><th>Email</th><th>Pass</th><th>Tipo</th><th>Año</th><th>Edit</th><th>Delete	</th></tr>";
+			$.each(info, function (i, item) {
+				table += "<tr><td>" + info[i].id_user + "</td><td>" + info[i].username + "</td><td>" + info[i].email
+					+ "</td><td>" + info[i].pass + "</td><td>" + info[i].level + "</td><td>"
+					+ info[i].level + "</td><td>"
+					+ '<form id="buscar_producto" action="{GET}" method="POST">'
+					+ '<input type="hidden" name="id_user" id="id_user" value="' + info[i].id_user + '">'
+					+ '<button type="submit" id="enviar" value=""><span class="fa fa-pencil fa-1x"></button>'
+					+ '</form></td><td>'
+					+ '<form id="borra_producto" action="{DELETE}" method="POST">'
+					+ '<input type="hidden" name="id_user" id="id_user" value="' + info[i].id_user + '">'
+					+ '<button type="submit" id="enviar" value=""><span class="fa fa-remove fa-1x"></button>'
+					+ '</form></td></tr>';
+			});
+			table += "</table>";
+			$('#table').html(table);
+		}
+
+
+</script>
