@@ -85,11 +85,10 @@
 		function renderData(info) {
 
 			//TABLA DE RESULTADOS--LIMPIAR
-			var table = "<table><tr><th>Id</th><th>Nick</th><th>Email</th><th>Pass</th><th>Tipo</th><th>Año</th><th>Edit</th><th>Delete	</th></tr>";
+			var table = "<table><tr><th>Id</th><th>Nick</th><th>Email</th><th>Pass</th><th>Tipo</th><th>Edit</th><th>Delete	</th></tr>";
 			$.each(info, function (i, item) {
 				table += "<tr><td>" + info[i].id_user + "</td><td>" + info[i].username + "</td><td>" + info[i].email
 					+ "</td><td>" + info[i].pass + "</td><td>" + info[i].level + "</td><td>"
-					+ info[i].level + "</td><td>"
 					+ '<form id="buscar_producto" action="{GET}" method="POST">'
 					+ '<input type="hidden" name="id_user" id="id_user" value="' + info[i].id_user + '">'
 					+ '<button type="submit" id="enviar" value=""><span class="fa fa-pencil fa-1x"></button>'

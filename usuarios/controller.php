@@ -27,9 +27,9 @@ function handler() {
 			retornar_vista(VIEW_SET_USER, $data);
 			break;
 		case GET_USER: //valor de la constante GET_USER es get
-			$user->get($user_data['$id_user']);
+			$user->get($user_data['id_user']);
 			$data = array(
-			'$id_user'=>$user->$id_user,
+			'id_user'=>$user->id_user,
 			'username'=>$user->username,
 			'email'=>$user->email,
 			'pass'=>$user->pass,

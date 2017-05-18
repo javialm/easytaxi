@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('constants.php');
 require_once('view.php');
 function handler() {
@@ -16,6 +17,12 @@ function handler() {
 	echo "event=".$event."<br>";*/
 	retornar_vista($event);
 }
-
+if(isset($_SESSION['user'])){
+	if($_SESSION['user']=="user"){
+	header("location: ../home/controller.php");
+	}
+}else{
+	header("location: ../home/controller.php");
+}
 handler();
 ?>

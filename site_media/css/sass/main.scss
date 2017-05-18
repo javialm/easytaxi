@@ -1,0 +1,428 @@
+/*Dos sintaxis. SCSS Y SASS*/
+//comando: scss main.scss:main.css
+
+
+
+// VARIABLES DE COLORES PERSONALIZADOS
+$white: #EEEEEE;
+$carbon: #212121;
+$orange: #FFC107;
+$brown: #795548;
+$darkbrown: #3E2723;
+$pink: #F06292;
+$purple: #9C27B0;
+$red: #B71C1C;
+$blue: #2196F3;
+$bluegrey: #343a45;
+$lightblugrey: #CFD8DC;
+$bluelight: #90CAF9;
+$darkblue: #343a45;
+//------------------
+
+/*-----------------------------------------
+PADDING, MARGIN, MAQUETACIÓN, ALINEACIÓN...
+------------------------------------------*/
+
+body{
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  color: #5a5a5a;
+}
+.center-block {
+   margin-left:auto;
+   margin-right:auto;
+   display:block;
+}
+
+.text-center {
+   text-align:center
+}
+
+*{
+  box-sizing: border-box;
+}
+
+.pad15{
+  padding:15px;
+}
+
+
+//COLORES
+.bg-white{
+    background: $white;}
+
+.t-white{
+    color: $white;}
+
+.bg-orange{
+    background: $orange;}
+
+.t-orange{
+    color: $orange;}
+
+.bg-brown{
+    background: $brown;}
+
+.t-brown{
+    color: $brown;}
+
+.bg-darkbrown{
+    background: $darkbrown;}
+
+.t-darkbrown{
+    color: $darkbrown;}
+
+.bg-pink {
+    background: $pink; }
+
+.t-pink {
+    color: $pink; }
+
+.bg-purple {
+    background: $purple; }
+
+.t-purple {
+    color: $purple; }
+
+.bg-red {
+    background: $red;}
+
+.t-red {
+    color:  $red;}
+
+.bg-blue {
+    background: $blue;}
+
+.t-blue {
+    color:  $blue;}
+
+.bg-bluegrey {
+    background: $bluegrey;}
+
+.t-bluegrey {
+    color:  $bluegrey;}
+
+
+
+//BACKGROUNDS
+.bg1 {
+    color: white;
+    background: url("../img/fondo-bienvenido-grande.jpg")100%;
+}
+
+.grad-pinkblue{
+    background: $bluelight; /* Old browsers */
+    background: -moz-linear-gradient(45deg, $bluelight 0%, $pink 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg, $bluelight 0%, $pink 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg, $bluelight 0%, $pink 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+ }
+
+ /*-----------------------------
+      ESTILOS, TAMAÑOS DE TEXTO ETC.
+ ------------------------------*/
+*{
+  color: $carbon;
+}
+
+ .head-title{
+   background: $carbon;
+   color:$white;
+   display: block;
+   padding: 5px 15px 5px 15px;
+ }
+
+ .price-title{
+   border-bottom: 2px solid $purple;
+   text-align: center;
+   color:$carbon;
+   display: block;
+   padding: 5px 15px 5px 15px;
+ }
+ .price-box{
+   font-size: 2em;
+   font-weight: bold;
+   color: #222;
+     text-align: center;
+ }
+
+
+
+ /*-----------------------------
+           otros
+ ------------------------------*/
+ .featurette-divider {
+   margin: 5rem 0; /* Space out the Bootstrap <hr> more */
+ }
+
+ /* Thin out the marketing headings */
+ .featurette-heading {
+   font-weight: 300;
+   line-height: 1;
+   letter-spacing: -.05rem;
+ }
+
+ /* Columnas marketing
+-------------------------------------------------- */
+
+.marketing .col-lg-4 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: normal;
+}
+.marketing .col-lg-4 p {
+  margin-right: .75rem;
+  margin-left: .75rem;
+}
+
+ /*-----------------------------
+         forms
+ -----------------------------*/
+ select{
+    width:100%;
+   margin-top: 1em;
+   border: 3px solid #c7dee4;
+ }
+ input{
+   width:100%;
+   margin-top: 1em;
+ }
+
+ input[type=text]{
+   border: 3px solid $bluelight;
+ }
+
+ /*-----------------------------
+         forms
+ -----------------------------*/
+
+ #table th{
+   padding: 5px 15px 5px 15px;
+ }
+
+ th {
+     color: $white;
+     background: $carbon;
+     border-bottom: 4px solid $lightblugrey;
+     border-right: 1px solid $darkblue;
+     font-weight: 100;
+     padding: 24px;
+     text-align: left;
+     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+     vertical-align: middle;
+ }
+
+ tr:nth-child(odd) td {
+     background: $white;
+ }
+
+ td {
+     background: white;
+     padding: 5px;
+     text-align: left;
+     vertical-align: middle;
+     text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+     border-right: 1px solid $lightblugrey;
+ }
+
+ tr:hover td {
+     background: #4E5066;
+     color: #FFFFFF;
+ }
+
+ th:last-child {
+     border-top-right-radius: 3px;
+     border-right: none;
+ }
+
+ th:first-child {
+     border-top-left-radius: 3px;
+ }
+
+ /*-----------------------------
+         Navbar
+ -----------------------------*/
+.navbar{
+  padding: 0 12px 0 12px !important;
+}
+.navbar .nav-link{
+  padding: 15px !important;
+}
+.navbar img{
+  padding: 8px !important;
+}
+
+
+
+ /*-----------------------------
+         sidebar
+ -----------------------------*/
+ /* Sidebar*/
+ .sidebar {
+   position: fixed;
+   top: 51px;
+   bottom: 0;
+   left: 0;
+   z-index: 1000;
+   padding: 20px;
+   overflow-x: hidden;
+   overflow-y: auto;
+   border-right: 1px solid $white; }
+
+ /* Sidebar navigation */
+ .sidebar {
+   padding-left: 0;
+   padding-right: 0; }
+ .nav-link{
+   border-radius: 0px !important;
+ }
+ .nav-link.active{
+   background: $pink  !important;
+ }
+
+ .sidebar li a {
+    background-color: #616975;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(114, 122, 134)),to(rgb(80, 88, 100)));
+    background-image: -webkit-linear-gradient(top, rgb(114, 122, 134), rgb(80, 88, 100));
+    background-image: -moz-linear-gradient(top, rgb(114, 122, 134), rgb(80, 88, 100));
+    background-image: -o-linear-gradient(top, rgb(114, 122, 134), rgb(80, 88, 100));
+    background-image: -ms-linear-gradient(top, rgb(114, 122, 134), rgb(80, 88, 100));
+    background-image: linear-gradient(top, rgb(114, 122, 134), rgb(80, 88, 100));
+    border-bottom: 1px solid #33373d;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #878e98;
+    -moz-box-shadow: inset 0px 1px 0px 0px #878e98;
+    box-shadow: inset 0px 1px 0px 0px #878e98;
+    width: 100%;
+    //height: 2.75em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0px 1px 0px rgba(0,0,0,.5);
+}
+
+ /*-----------------------------
+         login
+ -----------------------------*/
+
+ .form-signin {
+   max-width: 330px;
+   padding: 15px;
+   margin: 0 auto;
+ }
+ .form-signin .form-signin-heading,
+ .form-signin .checkbox {
+   margin-bottom: 10px;
+ }
+ .form-signin .checkbox {
+   font-weight: normal;
+ }
+ .form-signin .form-control {
+   position: relative;
+   height: auto;
+   -webkit-box-sizing: border-box;
+   box-sizing: border-box;
+   padding: 10px;
+   font-size: 16px;
+ }
+ .form-signin .form-control:focus {
+   z-index: 2;
+ }
+ .form-signin input[type="email"] {
+   margin-bottom: -1px;
+   border-bottom-right-radius: 0;
+   border-bottom-left-radius: 0;
+ }
+ .form-signin input[type="password"] {
+   margin-bottom: 10px;
+   border-top-left-radius: 0;
+   border-top-right-radius: 0;
+ }
+
+ /*-----------------------------------------------
+ TRANSITIONS, ANIMATIONS
+ ----------------------------------------------*/
+ .nav-link{
+   transition: .3s;
+ }
+
+ .nav-link:hover{
+   background: $pink;
+   opacity: .6;
+ }
+ .nav-link:hover a{
+   color: $carbon !important;
+ }
+
+.feature-img{
+  transition: 1s;
+}
+
+.feature-img:hover{
+  transform: scale(1.2);
+}
+
+/*SPRITE*/
+.sprite {
+    background-image: url(../img/social/sprite_rs.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+}
+
+.sprite-github {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -5px;
+}
+
+.sprite-gmail {
+    width: 30px;
+    height: 30px;
+    background-position: -45px -5px;
+}
+
+.sprite-linkedin {
+    width: 30px;
+    height: 30px;
+    background-position: -5px -45px;
+}
+
+.sprite-stackoverflow {
+    width: 30px;
+    height: 30px;
+    background-position: -45px -45px;
+}
+
+.sprite-tumblr {
+    width: 30px;
+    height: 30px;
+    background-position: -85px -5px;
+}
+
+.sprite-twitter {
+    width: 30px;
+    height: 30px;
+    background-position: -85px -45px;
+}
+
+
+ /*-----------------------------
+         media queries
+ -----------------------------*/
+ .navbar-info, .no-mobile{
+   display: none;
+ }
+ @media (min-width: 992px) {
+   .navbar-info, .no-mobile {
+     display: inline-block;
+   }
+ }
+
+ .no-desktop{
+   display: inline-block;
+ }
+ @media (min-width: 992px) {
+   .no-desktop {
+     display: none;
+   }
+ }

@@ -2,10 +2,14 @@
 	<div class="item_requerid">E-mail</div>
 	<div class="form_requerid"><input type="text" name="email" id="email" value="{email}" readonly></div>
 	<div class="item_requerid">Clave</div>
-	<div class="form_requerid"><input type="password" name="clave" id="clave" value="{clave}"></div>
-	<div class="item_requerid">Nombre</div>
-	<div class="form_requerid"><input type="text" name="nombre" id="nombre" value="{nombre}"></div>
-	<div class="item_requerid">Apellido</div>
-	<div class="form_requerid"><input type="text" name="apellido"id="apellido" value="{apellido}"></div>
+	<div class="form_requerid"><input type="password" name="pass" id="pass" value="{pass}"></div>
+	<div class="item_requerid">Nombre de usuario</div>
+	<div class="form_requerid"><input type="text" name="username" id="username" value="{username}"></div>
+	<div class="item_requerid">Tipo de usuario</div>
+	<select name="level">
+					<option value="{level}">{level}</option>
+					<option value="client">Cliente</option>
+					<option value="admin">Administrador</option>
+				</select>
 	<div class="form_button"><input type="submit" name="enviar" id="enviar" value="Guardar"></div>
 </form>

@@ -40,7 +40,7 @@ class Vehiculo extends DBAbstractModel {
 				";
 				$this->execute_single_query();
 				$this->mensaje = $model.' agregado';
-			
+
 		}
 	}
 	public function edit($prod_data=array()) {
@@ -89,8 +89,8 @@ class Vehiculo extends DBAbstractModel {
 						$car_data[$i]["id_vehicle"] = $id_vehicle;
 					}*/
 					echo json_encode($this->rows, JSON_FORCE_OBJECT);
-		}	
-		
+		}
+
 	}
 
 	function __destruct() {

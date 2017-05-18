@@ -1,14 +1,44 @@
 <?php
 $diccionario = array(
 	'subtitle'=>array(
-		VIEW_GET_HOME=>'Home',
+		VIEW_GET_HOME=>'Login',
+		VIEW_LOGOUT_HOME=>'Login',
+		VIEW_ACCOUNT_HOME=>'Login',
+		VIEW_LOGIN_HOME=>'Login'
 	),
 	'links_menu'=>array(
 		'VIEW_HOME'=>MODULO_HOME,
+		'VIEW_LOGIN_HOME'=>MODULO.VIEW_LOGIN_HOME.'/',
+		'VIEW_ACCOUNT_HOME'=>MODULO.VIEW_ACCOUNT_HOME.'/',
 		'VIEW_PRINCIPAL'=>MODULO_PRINCIPAL
 	),
-	'form_actions'=>array()
+	'form_actions'=>array(
+		'LOGIN'=>MODULO.GET_USER_HOME.'/',
+		'CREATE'=>MODULO.SET_ACCOUNT_HOME.'/',
+		'TICKET'=>MODULO.TICKET_HOME.'/'
+		
+	)
 );
+
+if(isset($_SESSION['user'])){
+	$diccionario = array(
+	'subtitle'=>array(
+		VIEW_GET_HOME=>'Hola, '.$_SESSION['nick'],
+		VIEW_LOGOUT_HOME=>'Hola, '.$_SESSION['nick'],
+		VIEW_LOGIN_HOME=>'Hola, '.$_SESSION['nick']
+	),
+	'links_menu'=>array(
+		'VIEW_HOME'=>MODULO_HOME,
+		'VIEW_LOGIN_HOME'=>MODULO.VIEW_LOGOUT_HOME.'/',
+		'VIEW_PRINCIPAL'=>MODULO_PRINCIPAL
+	),
+	'form_actions'=>array(
+		'LOGIN'=>MODULO.LOGOUT_HOME.'/',
+		'LOGOUT'=>MODULO.LOGOUT_HOME.'/',
+		'TICKET'=>MODULO.TICKET_HOME.'/'
+	)
+);
+}
 
 function get_template($form='get') {
 	$file = '../site_media/html/home_'.$form.'.html';

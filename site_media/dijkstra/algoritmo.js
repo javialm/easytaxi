@@ -1,67 +1,13 @@
 
 /**
- * Basic priority queue implementation. If a better priority queue is wanted/needed,
- * this code works with the implementation in google's closure library (https://code.google.com/p/closure-library/).
+ * Implementación de la priority queue. Mas info en google: (https://code.google.com/p/closure-library/).
  * Use goog.require('goog.structs.PriorityQueue'); and new goog.structs.PriorityQueue()
  */
-var result;
-
-function identify(lat, lng) {
-  $.getJSON('../site_media/data/nodes.geojson', 'path=1', nodes);
-  function nodes(rel) {
-    var suma = [];
-    var aux = 0;
-    var nodeLat = [];
-    for (var i = 0; i <= 1; i++) {
-      //suma[i]= lat[i] - rel.osm.node[0]._lat;
-      suma[i] = 9999999999;
-      for (var j = 0; j <= rel.osm.node.length - 1; j++) {
-        aux = calcDistance(lat[i], rel.osm.node[j]._lat, lng[i], rel.osm.node[j]._lon);
-        if (aux < suma[i]) {
-
-          suma[i] = aux;
-          nodeLat[i] = j;
-          //console.log("..((:..." + nodeLat[i]);
-        }
-      }
-    }
-    var start = rel.osm.node[nodeLat[0]]._id.toString();
-    var finish = rel.osm.node[nodeLat[1]]._id.toString();
-    console.log("suma: " + suma[0] + " en nodelat " + nodeLat[0] + " referencia: " + rel.osm.node[nodeLat[0]]._id);
-    console.log("suma: " + suma[1] + " en nodelat " + nodeLat[1] + " referencia: " + rel.osm.node[nodeLat[1]]._id);
-    //console.log(lat[i] + "---------" + lng[i]);
-    calc(start, finish);
-  }
 
 
-}
-
-function calcDistance(x1, x2, y1, y2) {
-  var dist = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)) * 100;
-  return dist.toFixed(2);
-  //console.log("distancia de " + dist.toFixed(2) + " km");
-  //console.log(dist.toFixed(5)*1000);
-}
-
-function calcDistance2(x1, x2, y1, y2) {
-  var dist = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)) * 100;
-  return dist;
-
-}
-
-
-/*var point = [];
-function readNodes(rel) {
-  for (var i = 0; i <= result.length - 1; i++) { //Largo como vias hay
-    for (var j = 0; j <= rel.osm.node.length - 1; j++) {
-      if (rel.osm.node[j]._id == result[i]) {
-
-        x = rel.osm.node[j]._lat;
-        y = rel.osm.node[j]._lon;
-      }
-    }
-  }
-}*/
+/*-------------------------------------------------------------------------
+                          ALGORITMO DE DIJKSTRA
+---------------------------------------------------------------------------*/
 
 function calc(start, finish) {
 
@@ -101,7 +47,7 @@ function calc(start, finish) {
         distances = {},
         previous = {},
         path = [],
-        smallest, vertex, neighbor, alt;
+        smallest, vertex, vecino, alt;
 
       for (vertex in this.vertices) { //Inicializamos el valor del vertice
         if (vertex === start) {
@@ -127,21 +73,21 @@ function calc(start, finish) {
             smallest = previous[smallest];
           }
 
-          break; //Salir del programa?
+          break; //Pausar
         }
 
         if (!smallest || distances[smallest] === INFINITY) {
           continue;
         }
 
-        for (neighbor in this.vertices[smallest]) {
-          alt = distances[smallest] + this.vertices[smallest][neighbor];
+        for (vecino in this.vertices[smallest]) {
+          alt = distances[smallest] + this.vertices[smallest][vecino];
 
-          if (alt < distances[neighbor]) {
-            distances[neighbor] = alt;
-            previous[neighbor] = smallest;
+          if (alt < distances[vecino]) {
+            distances[vecino] = alt;
+            previous[vecino] = smallest;
 
-            nodes.enqueue(alt, neighbor);
+            nodes.enqueue(alt, vecino);
           }
         }
       }
@@ -152,11 +98,9 @@ function calc(start, finish) {
   var g = new Graph();
 
 
-
-
-
-  /*Aqui antes faltaría procesar el geoJSON para calcular la ruta
-  con las coordenadas reales*/
+  /*-------------------------------------------------------------------------
+                                GRAFO DE NODOS
+  ---------------------------------------------------------------------------*/
 
   g.addVertex('3177282627', { 3177282626: 33.02 });
   g.addVertex('3177282626', { 4706019940: 57.58, 3177282627: 33.02, 1031040305: 4.42 });
@@ -213,44 +157,123 @@ function calc(start, finish) {
 
   g.addVertex('9999999', { 99999: 64.33, 9999: 46.85, 999: 45.11 });
   // Log test, with the addition of reversing the path and prepending the first node so it's more readable
-  //console.log(g.shortestPath('3177282626', '1031038659').concat(['3177282626']).reverse());
+
+  //Obtener la ruta desde "start" hasta "finish"
   result = g.shortestPath(start, finish).concat([start]).reverse();
   console.log(result);
 
-  //ESTO VA A OTRO ARCHIVO LOCOOO
-  $.getJSON('../site_media/data/nodes.geojson', 'path=1', drawNodes);
-  var point = [];
-  var distance = 0;
-  function drawNodes(rel) {
-    for (var i = 0; i <= result.length - 1; i++) { //Largo como vias hay
-      for (var j = 0; j <= rel.osm.node.length - 1; j++) {
-        if (rel.osm.node[j]._id == result[i]) {
+  //Dibujar la ruta
+  $.getJSON('../site_media/data/nodes.geojson', 'path=1', pathDrawing);
 
-          x = rel.osm.node[j]._lat;
-          y = rel.osm.node[j]._lon;
-          //console.log(i +": " + x + "-" + y);
-          point[i] = new L.LatLng(x, y);
-          console.log(result[i] + "coord: " + x + "-" + y);
-          //if (j < result.length - 1) {
-            distance = distance + (calcDistance2(x, rel.osm.node[j + 1]._lat, y, rel.osm.node[j + 1]._lon));
-          //}
+};
+
+/*-------------------------------------------------------------------------
+                          GLOBAL VARIABLES
+---------------------------------------------------------------------------*/
+var result; //ruta mas corta.
+var point = []; //nodos donde se dibuja la ruta
+var distance = 0; //distancia de la ruta
+var destino;
+
+
+/*-------------------------------------------------------------------------
+                       DIBUJAR LA RUTA EN EL MAPA
+---------------------------------------------------------------------------*/
+
+function pathDrawing(rel) {
+  distance = 0;
+
+  for (var i = 0; i <= result.length - 1; i++) { //Largo como vias hay
+    for (var j = 0; j <= rel.osm.node.length - 1; j++) {
+      if (rel.osm.node[j]._id == result[i]) {
+
+        x = rel.osm.node[j]._lat;
+        y = rel.osm.node[j]._lon;
+        point[i] = new L.LatLng(x, y);
+        console.log(result[i] + "coord: " + x + "-" + y);
+        //if (j < result.length - 1) {
+        distance = distance + (calcDistance2(x, rel.osm.node[j + 1]._lat, y, rel.osm.node[j + 1]._lon));
+        //}
+
+      }
+    }
+  }
+  var pointList = [point];
+  path = new L.Polyline(pointList, {
+    color: 'purple',
+    weight: 4,
+    opacity: 1,
+    smoothFactor: 1
+  });
+
+
+  path.addTo(mymap);
+  showTicket(rel, distance)
+}
+
+/*-----------------------------MOSTRAR RESULTADO---------------------------------*/
+
+function showTicket(rel, distance) {
+  //alert(rel.osm.node[result.length - 1]._id);
+  //console.log("DISTANCIA DE: " + distance.toFixed(2));
+  var x = localStorage.getItem("class");
+  
+  if (x != "null" && x != "") {
+    price = (distance.toFixed(2)*x)*0.1;
+    $('#price').html(price.toFixed(2)+ "€");
+    $('#total_amount').val(price.toFixed(2));
+  } else {
+    $('#price').html("SELECCIONA UNA CLASE");
+  }
+}
+
+/*-------------------------------------------------------------------------
+                             AJUSTE DE NODOS
+---------------------------------------------------------------------------*/
+
+function identify(lat, lng) {
+  $.getJSON('../site_media/data/nodes.geojson', 'path=1', nodes);
+  function nodes(rel) {
+    var suma = [];
+    var aux = 0;
+    var nodeLat = [];
+    for (var i = 0; i <= 1; i++) {
+      //suma[i]= lat[i] - rel.osm.node[0]._lat;
+      suma[i] = 9999999999;
+      for (var j = 0; j <= rel.osm.node.length - 1; j++) {
+        aux = calcDistance(lat[i], rel.osm.node[j]._lat, lng[i], rel.osm.node[j]._lon);
+        if (aux < suma[i]) {
+
+          suma[i] = aux;
+          nodeLat[i] = j;
+          //console.log("..((:..." + nodeLat[i]);
         }
       }
     }
-    console.log("DISTANCIA DE: " + distance);
-    //var pointList = [point[0], point[1], point[2], point[3], point[4], point[5], point[6]];
-    var pointList = [point];
-    var firstpolyline = new L.Polyline(pointList, {
-      color: 'purple',
-      weight: 4,
-      opacity: 1,
-      smoothFactor: 1
-    });
-    firstpolyline.addTo(mymap);
+    var start = rel.osm.node[nodeLat[0]]._id.toString();
+    var finish = rel.osm.node[nodeLat[1]]._id.toString();
+    console.log("suma: " + suma[0] + " en nodelat " + nodeLat[0] + " referencia: " + rel.osm.node[nodeLat[0]]._id);
+    console.log("suma: " + suma[1] + " en nodelat " + nodeLat[1] + " referencia: " + rel.osm.node[nodeLat[1]]._id);
+    //console.log(lat[i] + "---------" + lng[i]);
+    calc(start, finish);
   }
 
-  /*  var pointA = new L.LatLng(38.240, -0.820);
-  var pointB = new L.LatLng(38.246, -0.820);*/
 
+}
 
-};
+/*-----------------------------------------------------------------------------
+                     CALCULAR DISTANCIAS EN COORDENADAS
+-------------------------------------------------------------------------------*/
+
+function calcDistance(x1, x2, y1, y2) {
+  var dist = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)) * 100;
+  return dist.toFixed(2);
+  //console.log("distancia de " + dist.toFixed(2) + " km");
+  //console.log(dist.toFixed(5)*1000);
+}
+
+function calcDistance2(x1, x2, y1, y2) {
+  var dist = Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2)) * 100;
+  return dist;
+
+}

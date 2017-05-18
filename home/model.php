@@ -1,16 +1,16 @@
 <?php
 require_once('../core/db_abstract_model.php');
-class Tarifa extends DBAbstractModel {
+class Path extends DBAbstractModel {
 	public $id_rate;
 	public $classname;
 	public $price_km;
 
-	public function get($id_rate='') {
-		if($id_rate != ''):
+	public function get($price_km='') {
+		if($price_km != ''):
 			$this->query = "
 			SELECT *
 			FROM Rate
-			WHERE id_rate = '$id_rate'
+			WHERE price_km = $price_km
 			";
 			$this->get_results_from_query();
 		endif;
@@ -23,63 +23,65 @@ class Tarifa extends DBAbstractModel {
 			$this->mensaje = 'Tarifa no encontrada';
 		}
 	}
-	public function set($rate_data=array()) {
-		if($rate_data){//if(array_key_exists('id_vehicle', $rate_data)) pero el id es autoincrement
-
-				foreach ($rate_data as $campo=>$valor){
-					$$campo = $valor;
-				}
-				$this->query = "
-				INSERT INTO Rate
-				(id_rate,classname,price_km)
-				VALUES
-				('','$classname', $price_km)";
-				$this->execute_single_query();
-				$this->mensaje = $classname.' agregado';
-			
-		}
+	public function set(){
+		
 	}
-	public function edit($prod_data=array()) {
-		foreach ($prod_data as $campo=>$valor):
-			$$campo = $valor;
-		endforeach;
-		$this->query = "
-			UPDATE Vehicle
-			SET classname='$classname',
-			price_km=$price_km,
-			WHERE id_rate = '$id_rate'
-		";
-		$this->execute_single_query();
-		$this->mensaje = 'Tarifa modificada';
-		}
-	public function delete($id_rate='') {
-		$this->query = "
-		DELETE FROM Rate
-		WHERE id_rate = '$id_rate'
-		";
-		$this->execute_single_query();
-		$this->mensaje = 'Tarifa eliminado';
+	public function edit(){
+		
 	}
-	public function listing($prod_data=array()) {
-		foreach ($prod_data as $campo=>$valor):
-			$$campo = $valor;
-		endforeach;
+	public function delete(){
+		
+	}
 
-			$this->query = "SELECT * FROM Rate WHERE id_rate IS NOT NULL ";
-			$this->query .= ($id_rate==NULL or $id_rate=="") ? '' : 'AND id_rate="'.$id_rate.'"' ;
-			$this->query .= ($classname==NULL or $classname=="") ? '' : 'AND classname="'.$classname.'"' ;
-			$this->query .= ($price_km==NULL or $price_km=="") ? '' : 'AND price_km="'.$price_km.'"' ;
-			$this->get_results_from_query();
+	public function show_price(){
+		
+		$this->query = "SELECT * FROM Rate WHERE id_rate IS NOT NULL ";
+		$this->get_results_from_query();
 
 		//PASANDO EL RESULTADO AL AJAX PARA RENDERIZARLO EN EL LADO DEL CLIENTE
 		if(count($this->rows) >0){
-			$car_data = array();
-					/*for($i=0;$i<count($this->rows);$i++){
-						$id_rate = $this->rows[$i]['id_vehicle'];
-						$car_data[$i]["id_vehicle"] = $id_rate;
-					}*/
-					echo json_encode($this->rows, JSON_FORCE_OBJECT);
+			
+			echo json_encode($this->rows, JSON_FORCE_OBJECT);
 		}	
+	}
+
+	public function login($user_data=array()){
+		foreach ($user_data as $campo=>$valor):
+			$$campo = $valor;
+		endforeach;
+
+		$this->query = "SELECT * FROM User WHERE email = '$email' AND pass = '$pass' ";
+		$this->get_results_from_query();
+		if(count($this->rows) >0){
+			$_SESSION['user'] = $this->rows[0]['level'];
+			$_SESSION['nick'] = $this->rows[0]['username'];
+			if($this->rows[0]['level'] == "admin"){
+				header("location: ../principal/controller.php");
+			}else{
+				header("location: ../home/controller.php");
+			}
+		}
+	}
+
+	public function createUser($user_data=array()) {
+		if($user_data){//if(array_key_exists('id_user', $user_data)) pero el id es autoincrement
+
+				foreach ($user_data as $campo=>$valor){
+					$$campo = $valor;
+				}
+				$this->query = "
+				INSERT INTO User
+				(id_user,username,email,pass,level)
+				VALUES
+				('','$username', '$email', '$pass', 'user')
+				";
+				$this->execute_single_query();
+				$this->mensaje = $model.' agregado';
+			header("location: ../home/controller.php");
+		}
+	}
+
+	public function createPdfTicket(){
 		
 	}
 

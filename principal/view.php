@@ -28,7 +28,7 @@ function retornar_vista($vista, $data=array()) {
 	$html = get_template('template');
 	$html = render_dinamic_data($html, $diccionario['links_menu']);
 	// render {mensaje}
-	$mensaje = 'PANTALLA PRINCIPAL';
+	$mensaje = '<h3>Bienvenido al panel de gestión</h3>';
 	$html = str_replace('{mensaje}', $mensaje, $html);
 	print $html;
 }
